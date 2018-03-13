@@ -1,0 +1,5 @@
+data/com.github.nvlgit.Valce.desktop.in
+data/com.github.nvlgit.Valce.appdata.xml.in
+data/com.github.nvlgit.Valce.gschema.xml
+src/window.uisrc/main.vala
+src/window.vala
