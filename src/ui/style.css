@@ -9,19 +9,3 @@
 		border-bottom-color: alpha(white, 0.13);
 		border-radius: 0%;
 	}
-
-	.button_previous_style {
-		border-top-right-radius: 0%;
-		border-bottom-right-radius: 0%;
-		border-right: 0;
-	}
-
-	.button_play_style {
-		border-radius: 0%;
-	}
-
-	.button_next_style {
-		border-top-left-radius: 0%;
-		border-bottom-left-radius: 0%;
-		border-left: 0;
-	}
