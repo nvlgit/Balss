@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=balss
-Exec=balss
-Terminal=false
-Type=Application
-Categories=GTK;
-StartupNotify=true

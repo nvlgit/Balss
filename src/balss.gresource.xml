@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/com/github/nvlgit/Balss">
+  <gresource prefix="/com/gitlab/nvlgit/Balss">
     <file>app-menu.ui</file>
-    <file>player-app-window.ui</file>
+    <file>window.ui</file>
     <file>prefs.ui</file>
+    <file>chapter-row.ui</file>
+    <file>chapter-list-box.ui</file>
+    <file>info-display.ui</file>
     <file>style.css</file>
   </gresource>
-  <gresource prefix="/com/github/nvlgit/Balss/icons">
+  <gresource prefix="/com/gitlab/nvlgit/Balss/icons">
     <file alias="media-playback-rate-symbolic.svg">media-playback-rate-symbolic.svg</file>
-    <file>balss.svg</file>
   </gresource>
 </gresources>

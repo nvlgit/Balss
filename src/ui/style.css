@@ -1,11 +1,81 @@
-	.info_box_style {
-		background-image: linear-gradient(0deg, alpha(#26c, 0.1), alpha(#26c, 0.08) );
+	.balss-info-display {
+	background-image: linear-gradient(0deg, alpha(#26c, 0.1), alpha(#26c, 0.08) );
 
-		border-style: solid;
-		border-width: 3px;
-		border-top-color: alpha(black, 0.13);
-		border-right-color: alpha(gray, 0.13);
-		border-left-color: alpha(gray, 0.13);
-		border-bottom-color: alpha(white, 0.13);
-		border-radius: 0%;
+	border-style: solid;
+	border-width: 3px;
+	border-top-color: alpha(@theme_fg_color, 0.10);
+	border-right-color: alpha(@theme_fg_color, 0.12);
+	border-left-color: alpha(@theme_fg_color, 0.12);
+	border-bottom-color: alpha(@theme_fg_color, 0.18);
+	border-radius: 0%;
 	}
+
+.balss-listbox-background {
+	background-color: alpha (@theme_bg_color, 0.4 );
+}
+
+.balss-slider slider {
+    min-height: 15px;
+    min-width: 15px;
+    margin: -7px;
+    border-radius: 100%;
+  }
+
+.balss-chapter-row {
+
+	border-style: solid;
+	color: @theme_text_color;
+	border-color: alpha ( @theme_text_color, 0.15 );
+	border-width: 2px;
+	border-radius: 100px;
+
+	background-color: @theme_base_color;
+}
+
+.balss-chapter-row:hover {
+
+	background-color: alpha (@theme_fg_color, 0.05 );
+	color: @theme_fg_color;
+}
+
+.balss-chapter-row:focus {
+
+	outline-style: none;
+	border-color: @theme_selected_bg_color;
+	border-width: 2px;
+	border-style: dashed;
+}
+
+.balss-active-chapter-row {
+	background-color: @theme_selected_bg_color;
+	color: @theme_selected_fg_color;
+	border-style:solid;
+	border-radius: 100px;
+	border-color: @theme_selected_bg_color;
+	border-width: 2px;
+}
+
+.balss-active-chapter-row:hover {
+	background-color: alpha (@theme_selected_bg_color, 0.9 );
+	color: @theme_selected_fg_color;
+}
+
+.balss-active-chapter-row:backdrop label{
+	color: @theme_selected_fg_color;
+}
+
+.balss-vertical-spinbutton button.down, button.up {
+
+	background-color: transparent;
+	background-image: none;
+	border-style: none;
+	border-width: 0;
+
+}
+.balss-vertical-spinbutton button.down:hover, button.up:hover, button.down:active, button.up:active {
+
+	background-color: alpha ( @theme_fg_color, 0.1 );
+	background-image: none;
+	border-style: none;
+
+}

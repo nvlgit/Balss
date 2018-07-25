@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.21.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="rate_adjustment">
@@ -55,7 +54,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="label" translatable="yes">Features</property>
+                                <property name="label" translatable="yes">Behavior</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -114,7 +113,7 @@
                                                     <property name="halign">start</property>
                                                     <property name="label" translatable="yes">Play the latest URI from the latest position</property>
                                                     <attributes>
-                                                      <attribute name="scale" value="0.83333000000000002"/>
+                                                      <attribute name="scale" value="0.83"/>
                                                     </attributes>
                                                     <style>
                                                       <class name="dim-label"/>
@@ -186,7 +185,7 @@
                                                     <property name="halign">start</property>
                                                     <property name="label" translatable="yes">Show desktop notifications for each chapter</property>
                                                     <attributes>
-                                                      <attribute name="scale" value="0.83333000000000002"/>
+                                                      <attribute name="scale" value="0.83"/>
                                                     </attributes>
                                                     <style>
                                                       <class name="dim-label"/>
@@ -311,7 +310,7 @@
                                                     <property name="halign">start</property>
                                                     <property name="label" translatable="yes">Play the latest URI from the latest position</property>
                                                     <attributes>
-                                                      <attribute name="scale" value="0.83333000000000002"/>
+                                                      <attribute name="scale" value="0.83"/>
                                                     </attributes>
                                                     <style>
                                                       <class name="dim-label"/>
@@ -383,7 +382,7 @@
                                                     <property name="halign">start</property>
                                                     <property name="label" translatable="yes">Default playback rate</property>
                                                     <attributes>
-                                                      <attribute name="scale" value="0.83333000000000002"/>
+                                                      <attribute name="scale" value="0.83"/>
                                                     </attributes>
                                                     <style>
                                                       <class name="dim-label"/>

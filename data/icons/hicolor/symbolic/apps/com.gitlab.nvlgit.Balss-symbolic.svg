@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+xmlns:cc="http://creativecommons.org/ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<metadata>
+<rdf:RDF>
+<cc:Work rdf:about="">
+<dc:format>image/svg+xml</dc:format>
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+<dc:title>Gnome Symbolic Icon Theme</dc:title>
+</cc:Work>
+</rdf:RDF>
+</metadata>
+<title>Gnome Symbolic Icon Theme</title>
+<rect x="1" y="6" width="3" height="9" ry="2.1742e-15" fill="#bebebe"/>
+<rect x="5" y="4" width="3" height="11" ry="1.9772e-15" fill="#bebebe"/>
+<rect x="9" y="7" width="3" height="8" ry="2.3704e-15" fill="#bebebe"/>
+<rect x="1" y="2" width="3" height="3" ry="1.8682e-15" fill="#bebebe"/>
+<rect x="5" y="1" width="3" height="2" ry="1.8682e-15" fill="#bebebe"/>
+<rect x="9" y="3" width="3" height="3" ry="1.8682e-15" fill="#bebebe"/>
+<rect x="13" y="6" width="2" height="9" ry="2.3704e-15" fill="#bebebe"/>
+<rect x="13" y="2" width="2" height="3" ry="1.8682e-15" fill="#bebebe"/>
+</svg>

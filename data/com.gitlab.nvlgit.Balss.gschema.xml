@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="balss">
+  <schema id="com.gitlab.nvlgit.Balss" path="/com/gitlab/nvlgit/Balss/">
+
+    <key name="dark-theme" type="b">
+      <default>false</default>
+      <summary>Dark theme</summary>
+      <description>
+        Force use dark theme
+      </description>
+    </key>
+
+    <key name="play-last" type="b">
+      <default>true</default>
+      <summary>Resume playback on startup</summary>
+      <description>
+        Resume playback the last played URI on startup
+      </description>
+    </key>
+
+    <key name="last-uri" type="s">
+      <default>'none'</default>
+      <summary>Last URI</summary>
+    </key>
+
+    <key name="last-position" type="d">
+      <default>0</default>
+      <summary>Last position</summary>
+    </key>
+
+    <key name="playback-rate" type="d">
+      <range min="0.5" max="2.0"/>
+      <default>1.0</default>
+      <summary>Playback rate</summary>
+      <description>
+        Default playback rate
+    </description>
+    </key>
+
+    <key name="show-notifications" type="b">
+      <default>false</default>
+      <summary>Notify about a new chapter</summary>
+      <description>
+        Show desktop notifications for each new chapter
+      </description>
+    </key>
+
+    <key name="window-width" type="i">
+      <default>540</default>
+      <summary>Window width</summary>
+    </key>
+
+    <key name="window-height" type="i">
+      <default>500</default>
+      <summary>Window height</summary>
+    </key>
+
+  </schema>
+</schemalist>

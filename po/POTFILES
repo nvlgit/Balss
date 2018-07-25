@@ -1,5 +1,10 @@
-data/com.github.nvlgit.Valce.desktop.in
-data/com.github.nvlgit.Valce.appdata.xml.in
-data/com.github.nvlgit.Valce.gschema.xml
-src/window.uisrc/main.vala
+data/com.gitlab.nvlgit.Balss.desktop.in
+data/com.gitlab.nvlgit.Balss.appdata.xml.in
+data/com.gitlab.nvlgit.Balss.gschema.xml
+src/window.ui
+src/app-menu.ui
+src/prefs.ui
+src/chapter-list-box.ui
+src/app.vala
 src/window.vala
+src/app-about.vala

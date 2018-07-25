@@ -19,110 +19,170 @@
 
 namespace Balss {
 
-    const string APP_ID = "com.github.nvlgit.Balss";
-    const string APP_VERISON = "0.0.1";
-    const string APP_ICON = "balss";
+	const string APP_ID = "com.gitlab.nvlgit.Balss";
 
-    public class App : Gtk.Application {
 
-    	/* The application actions */
-    	private const ActionEntry[] actions = {
+	public class App : Gtk.Application {
 
-		{ "openfile",  open_cb       },
-		{ "prefs",     prefs_cb      },
-		{ "shortcuts", shortcuts_cb  },
-		{ "about",     about_cb      },
-		{ "quit",      quit_cb       }
-    	};
 
-        private PlayerAppWindow win;
+		private PlayerWindow win;
+		public static Prefs preferences;
 
-        public App () {
+		private const ActionEntry[] actions = {
 
-		application_id = APP_ID;
-		flags |= GLib.ApplicationFlags.HANDLES_OPEN;
+			{ "open",      open_cb       },
+			{ "prefs",     prefs_cb      },
+			{ "shortcuts", shortcuts_cb  },
+			{ "about",     about_cb      },
+			{ "quit",      quit_cb       }
+		};
 
-        }
 
-    	private void prefs_cb (SimpleAction action, Variant? parameter) {
 
-		var prefs = new AppPrefs ( (PlayerAppWindow) this.active_window );
-		prefs.present ();
-    	}
+		public App () {
 
-    	void shortcuts_cb (SimpleAction action, Variant? parameter) {
+			application_id = APP_ID;
+			flags |= GLib.ApplicationFlags.HANDLES_OPEN;
+		}
+
+
+
+		private void open_cb (SimpleAction action, Variant? parameter) {
+
+			win = (PlayerWindow) this.active_window;
+			win.show_page ("main");
+
+			var chooser = new Gtk.FileChooserDialog ("Select file",
+			                                         win as PlayerWindow,
+			                                         Gtk.FileChooserAction.OPEN,
+			                                         _("_Cancel"),
+			                                         Gtk.ResponseType.CANCEL,
+			                                         _("_Open"),
+			                                         Gtk.ResponseType.ACCEPT,
+			                                         null);
+			var filter = new Gtk.FileFilter ();
+			filter.set_filter_name (_("m4b books") );
+			filter.add_pattern ("*.m4b");
+			filter.add_pattern ("*.M4B");
+			filter.add_pattern ("*.M4b");
+			filter.add_pattern ("*.m4B");
+			chooser.add_filter (filter);
+
+			filter = new Gtk.FileFilter ();
+			filter.set_filter_name (_("All audio files") );
+			filter.add_mime_type ("audio/*");
+			chooser.add_filter (filter);
+
+			filter = new Gtk.FileFilter ();
+			filter.set_filter_name (_("All files") );
+			filter.add_pattern ("*");
+			chooser.add_filter (filter);
+
+			chooser.local_only = true;
+			chooser.select_multiple = false;
+			chooser.set_modal (true);
+
+			chooser.response.connect ( (fc, r) => {
+
+				var c = fc  as Gtk.FileChooserDialog;
+				if (r == Gtk.ResponseType.ACCEPT)
+					win.open (c.get_uri () );
+				chooser.destroy ();
+			});
+
+			chooser.show ();
+		}
+
+
+
+		private void prefs_cb (SimpleAction action, Variant? parameter) {
+
+			win = (PlayerWindow) this.active_window;
+			win.show_page ("prefs");
+		}
+
+
+
+		void shortcuts_cb (SimpleAction action, Variant? parameter) {
 /*
-		var builder = new Gtk.Builder.from_resource (
-		                           "/com/github/nvlgit/Balss/shortcuts-window.ui");
+		var builder = new Gtk.Builder.from_resource ( //FIXME
+		                  "/com/gitlab........./shortcuts-window.ui");
 		var shortcuts_window = (Gtk.Window) builder.get_object ("shortcuts-window");
 		shortcuts_window.show ();
 */
-    	}
-
-    	void about_cb (SimpleAction action, Variant? parameter) {
-
-    		AppAbout about = new AppAbout (get_active_window () );
-    		about.present ();
-        }
-
-    	void quit_cb (SimpleAction action, Variant? parameter) {
-
-    		this.quit ();
-    	}
-
-    	public override void startup () {
-
-    		base.startup ();
-
-    		var css_provider = new Gtk.CssProvider ();
-       		css_provider.load_from_resource ("/com/github/nvlgit/Balss/style.css");
-       		Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (),
-            						  css_provider,
-		                                          Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-    		Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
-    		icon_theme.add_resource_path("/com/github/nvlgit/Balss/icons");
-
-    		this.add_action_entries (actions, this);
-        	var builder = new Gtk.Builder.from_resource ("/com/github/nvlgit/Balss/app-menu.ui");
-        	var appmenu = (GLib.MenuModel) builder.get_object ("app-menu");
-    		this.set_app_menu (appmenu);
+		}
 
 
 
-    	}
+		void about_cb (SimpleAction action, Variant? parameter) {
 
-        protected override void activate () {
+			AppAbout about = new AppAbout (get_active_window () );
+			about.present ();
+		}
 
-                base.activate ();
-                win = (PlayerAppWindow) this.active_window;
-                if (win == null)
-                    win = new PlayerAppWindow (this);
-                win.mp_set_uri("file:///home/vic/Music/gonki.m4b");
-    		win.present ();
-        }
 
-        public override void open (GLib.File[] files,
-                                   string      hint) {
 
-                win = (PlayerAppWindow) this.active_window;
-                if (win == null)
-                    win = new PlayerAppWindow (this);
-                win.open (files[0]);
-    		win.present ();
+		void quit_cb (SimpleAction action, Variant? parameter) {
 
-        }
-	
-        private void open_cb (SimpleAction action, Variant? parameter) {
+			this.quit ();
+		}
 
-    		var dialog = new OpenDialog ();
-    		dialog.set_transient_for ( (PlayerAppWindow) this.active_window );
 
-    		var uri = dialog.get_file ();
 
-    		stdout.printf ("Selected:  %s\n", uri);
-    		win.mp_set_uri (uri);
-    		dialog.close();
-        }
-    }
+		private void notify_desktop (string title, string body) {
+
+			var n = new GLib.Notification (title);
+			n.set_body (body);
+			( (GLib.Application) this).send_notification (null, n);
+		}
+
+
+
+		public override void startup () {
+
+			base.startup ();
+			preferences = new Prefs ();
+
+			var css_provider = new Gtk.CssProvider ();
+			css_provider.load_from_resource ("/com/gitlab/nvlgit/Balss/style.css");
+			Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (),
+			                                          css_provider,
+			                                          Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+			Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
+			icon_theme.add_resource_path("/com/gitlab/nvlgit/Balss/icons");
+
+			this.add_action_entries (actions, this);
+			var builder = new Gtk.Builder.from_resource ("/com/gitlab/nvlgit/Balss/app-menu.ui");
+			var appmenu = (GLib.MenuModel) builder.get_object ("app-menu");
+			this.set_app_menu (appmenu);
+		}
+
+
+
+		protected override void activate () {
+
+			//base.activate ();
+			win = (PlayerWindow) this.active_window;
+			if (win == null) {
+				win = new PlayerWindow (this);
+				win.new_notification.connect (notify_desktop);
+			}
+			win.present ();
+		}
+
+
+
+		public override void open (GLib.File[] files,
+		                           string      hint) {
+
+			win = (PlayerWindow) this.active_window;
+			if (win == null)
+				win = new PlayerWindow (this);
+
+			string uri = files[0].get_uri ();
+			win.open (uri);
+			win.present ();
+		}
+	}
 }

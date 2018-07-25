@@ -1,4 +1,4 @@
-/* app-prefs-dialog.vala *
+/* about-dialog.vala *
  *
  * Copyright (C) 2018 Nick *
  *
@@ -18,19 +18,31 @@
 
 namespace Balss {
 
-    [GtkTemplate (ui = "/com/github/nvlgit/Balss/prefs.ui")]
-    public class AppPrefs : Gtk.Window {
+	public class AppAbout : Gtk.AboutDialog {
 
+		public AppAbout (Gtk.Window window) {
 
-        public AppPrefs (PlayerAppWindow window) {
-            GLib.Object (transient_for: window);
+			GLib.Object (transient_for: window, use_header_bar: 1);
+			this.set_destroy_with_parent (true);
+			this.set_modal (true);
 
-            //settings = new GLib.Settings ("com.github.nvlgit.Balss");
-          //  settings.bind ("f", f, "f",
-            //               GLib.SettingsBindFlags.DEFAULT);
-            //settings.bind ("tr", tr, "active-id",
-              //             GLib.SettingsBindFlags.DEFAULT);
-        }
-    }
+			logo_icon_name = APP_ID;
 
+			this.program_name = "Balss";
+
+			this.version = VERSION;
+			this.comments = _("Simple audio book player");
+			this.website = "https://github.com/nvlgit/balss";
+			this.website_label = null;
+			this.copyright = "Copyright © 2018 Nick";
+
+			this.artists = null;
+			this.authors = {"Nick", ""};
+			this.documenters = null;
+			this.translator_credits = null;
+
+			this.license = "GNU Public Licence version 3";
+			this.wrap_license = true;
+		}
+	}
 }
