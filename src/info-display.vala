@@ -73,7 +73,7 @@ namespace Balss {
 		
 		public void clear () {
 
-			speed = "";
+			//speed = "";
 			chapter_time = "";
 			chapter_index = "";
 			chapter_title = "";

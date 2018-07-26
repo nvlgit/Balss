@@ -76,6 +76,8 @@ namespace Balss {
 			ctx.set_wakeup_callback (wakeup_callback);
 			ctx.initialize ();
 			metadata = Metadata ();
+			metadata = { "", "", "", "", "", "", "", "", "" };
+
 		}
 
 
@@ -84,12 +86,10 @@ namespace Balss {
 
 
 
-		public void load_uri (string uri, double position) {
+		public void load_uri (string uri) {
 
 			string[] cmd = {"loadfile", uri };
 			check ("1", ctx.command (cmd) );
-			 //FIXME play from position
-			//this.startup_seek_pos = position;
 		}
 
 
@@ -104,25 +104,20 @@ namespace Balss {
 
 		private void set_options () {
 
-			//check (ctx.set_option_string ("input-default-bindings", "yes") ); //Disable/enable mpv default (built-in) key bindings.
-			//check (ctx.set_option_string ("input-vo-keyboard",      "yes") ); // Disable/enable all keyboard input. Useful for embedding only.
-			//check (ctx.set_option_string ("input-cursor",            "no") );  // Permit mpv to receive pointer events reported by the video output driver.
-			//check (ctx.set_option_string ("cursor-autohide",         "no") );
-			//check (ctx.set_option_string ("vo",                    "null") );
 			check ("2", ctx.set_option_string ("video",                   "no") );
 			check ("3", ctx.set_option_string ("audio-client-name",     APP_ID) );
 			check ("4", ctx.set_option_string ("config",                  "no") );
 			check ("5", ctx.set_option_string ("title",                    "-") );
-			check ("6", ctx.set_option_string ("log-file",    "libmpv-log.txt") );
+			check ("6", ctx.set_option_string ("log-file",    "libmpv-log.txt") ); // for debug
 		}
 
 
 
 		private void set_observed_properties () {
 
-			check ("7", ctx.observe_property (0, "duration",         Mpv.Format.DOUBLE) );
-			check ("8", ctx.observe_property (0, "time-pos",         Mpv.Format.DOUBLE) );
-			check ("9", ctx.observe_property (0, "ao-volume",        Mpv.Format.DOUBLE) );
+			check (" 7", ctx.observe_property (0, "duration",         Mpv.Format.DOUBLE) );
+			check (" 8", ctx.observe_property (0, "time-pos",         Mpv.Format.DOUBLE) );
+			check (" 9", ctx.observe_property (0, "ao-volume",        Mpv.Format.DOUBLE) );
 			check ("10", ctx.observe_property (0, "ao-mute",          Mpv.Format.FLAG)   );
 			check ("11", ctx.observe_property (0, "pause",            Mpv.Format.FLAG)   );
 			check ("12", ctx.observe_property (0, "speed",            Mpv.Format.DOUBLE) );
@@ -146,9 +141,9 @@ namespace Balss {
 
 			Mpv.Event ev = null;
 
-			while(true) {
+			while (true) {
 
-				ev = ctx.wait_event(0);
+				ev = ctx.wait_event (0);
 
 				if (ev.event_id == Mpv.EventID.NONE) { break; }
 
@@ -265,8 +260,8 @@ namespace Balss {
 			int64 i;
 			check ("17",
 				ctx.get_property_int64 ("chapters",
-				                         Mpv.Format.INT64,
-				                         out i) );
+				                        Mpv.Format.INT64,
+				                        out i) );
 
 			return (int) i;
 		}
@@ -278,8 +273,8 @@ namespace Balss {
 			int64 i;
 			check ("19",
 				ctx.get_property_int64 ("chapter",
-				                         Mpv.Format.INT64,
-				                         out i) );
+				                        Mpv.Format.INT64,
+				                        out i) );
 
 			return (int) i;
 		}
@@ -315,8 +310,8 @@ namespace Balss {
 			check ("22",
 				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
 				                        "time-pos",
-				                         Mpv.Format.DOUBLE,
-				                         p) );
+				                        Mpv.Format.DOUBLE,
+				                        p) );
 		}
 
 
@@ -338,8 +333,8 @@ namespace Balss {
 			int i;
 			check ("24",
 				ctx.get_property_flag ("pause",
-				                         Mpv.Format.FLAG,
-				                         out i) );
+				                       Mpv.Format.FLAG,
+				                       out i) );
 			return (bool) (i == 0) ? false : true;
 		}
 
@@ -400,8 +395,8 @@ namespace Balss {
 			int i;
 			check ("28",
 				ctx.get_property_flag ("ao-mute",
-				                         Mpv.Format.FLAG,
-				                         out i) );
+				                       Mpv.Format.FLAG,
+				                       out i) );
 			return (bool) (i == 0) ? false : true;
 		}
 
@@ -434,7 +429,7 @@ namespace Balss {
 		public void set_speed (double? speed) {
 
 			check ("31",
-				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
+				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "speed",
 				                        Mpv.Format.DOUBLE,
 				                        speed) );
@@ -457,31 +452,31 @@ namespace Balss {
 						key = node.u_list.keys[i];
 
 						if ("title" == key) {
-							metadata.title = (string) node.u_list.values[i].u_string;
+							metadata.title = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("artist" == key) {
-							metadata.artist = (string) node.u_list.values[i].u_string;
+							metadata.artist = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("album" == key) {
-							metadata.album = (string) node.u_list.values[i].u_string;
+							metadata.album = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("album_artist" == key) {
-							metadata.album_artist = (string) node.u_list.values[i].u_string;
+							metadata.album_artist = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("composer" == key) {
-							metadata.composer = (string) node.u_list.values[i].u_string;
+							metadata.composer = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("genre" == key) {
-							metadata.genre = (string) node.u_list.values[i].u_string;
+							metadata.genre = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("date" == key) {
-							metadata.date = (string) node.u_list.values[i].u_string;
+							metadata.date = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("track" == key) {
-							metadata.track = (string) node.u_list.values[i].u_string;
+							metadata.track = (string) node.u_list.values[i].u_string ?? "";
 						}
 						if ("disc" == key) {
-							metadata.disc = (string) node.u_list.values[i].u_string;
+							metadata.disc = (string) node.u_list.values[i].u_string ?? "";
 						}
 					}
 				}
@@ -522,7 +517,7 @@ namespace Balss {
 						if (ready) {
 
 							Chapter chapter = Chapter ();
-							chapter.title = title;
+							chapter.title = title.strip () ;
 							chapter.offset = offset;
 							chapter.end = o;
 							list.append (chapter);

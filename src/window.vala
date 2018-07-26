@@ -34,6 +34,9 @@ namespace Balss {
 		private double duration;
 		private double current_chapter_offset;
 		private double current_chapter_duration;
+		private bool speed_was_setted;
+		private bool was_eos;
+		private bool initial_volume_was_setted;
 
 		private bool audiobook;
 		private string basename;
@@ -67,6 +70,9 @@ namespace Balss {
 			this.current_chapter_offset = 0;
 			this.current_chapter_duration = 0;
 			this.audiobook = false;
+			this.speed_was_setted = false;
+			this.was_eos = false;
+			this.initial_volume_was_setted = false;
 
 			this.player = new Player ();
 
@@ -104,24 +110,24 @@ namespace Balss {
 
 		public void open (string uri) {
 
+			this.uri = uri;
 			basename = File.new_for_uri (uri).get_basename ();
 			if (player != null) {
 				player.destroy_context ();
 				player = null;
 				player = new Player ();
-				clear_ui_interface ();
 				connect_player_signals ();
 			}
-			player.load_uri (uri, 100.0); //FIXME Play last position
-			player.set_speed ( (double) App.preferences.playback_speed);
+			this.speed_was_setted = false;
+			player.load_uri (this.uri); //FIXME Play last position
 		}
 
 
 
 		public void show_page (string page_name) {
 
-		win_stack.set_visible_child_name (page_name);
-		header_stack.set_visible_child_name (page_name);
+			win_stack.set_visible_child_name (page_name);
+			header_stack.set_visible_child_name (page_name);
 		}
 
 
@@ -149,14 +155,10 @@ namespace Balss {
 			player.volume_changed.connect (volume_changed_cb);
 			player.chapter_changed.connect (chapter_changed_cb);
 			player.pause_changed.connect (pause_changed_cb);
+			player.end_of_stream.connect (end_of_stream_cb);
 
 			player.mute_changed.connect ( (m) => {
 				//debug ("Mute: %s\n", (m == false) ? "Unmuted" : "Muted" ); //FIXME
-			});
-			player.end_of_stream.connect ( () => { //FIXME
-
-				player.set_position (0);
-				player.pause();
 			});
 		}
 
@@ -172,22 +174,22 @@ namespace Balss {
 
 		private void connect_prefs_signals () {
 
-			dark_theme_switch.state_set.connect(() => {
+			dark_theme_switch.state_set.connect( () => {
 				App.preferences.dark_theme = dark_theme_switch.active;
 				return false;
 			});
 
-			play_last_switch.state_set.connect(() => {
+			play_last_switch.state_set.connect( () => {
 				App.preferences.play_last = play_last_switch.active;
 				return false;
 			});
 
-			notification_switch.state_set.connect(() => {
+			notification_switch.state_set.connect( () => {
 				App.preferences.show_notifications = notification_switch.active;
 				return false;
 			});
 
-			prefs_speed_spin_button.value_changed.connect(() => {
+			prefs_speed_spin_button.value_changed.connect( () => {
 				App.preferences.playback_speed = prefs_speed_spin_button.value;
 			});
 		}
@@ -204,7 +206,6 @@ namespace Balss {
 			} catch (Error e) {
 				error ("%s", e.message);
 			}
-
 		}
 
 
@@ -228,7 +229,6 @@ namespace Balss {
 
 			this.lb.chapter_row_activated.connect ( (i) => {
 
-				player.set_chapter (i);
 				player.set_chapter (i);
 			});
 		}
@@ -291,6 +291,23 @@ namespace Balss {
 		}
 
 
+
+		private void end_of_stream_cb () {
+
+			debug ("end of stream");
+			was_eos = true;
+
+			if (player != null) {
+				player.destroy_context ();
+				player = null;
+				player = new Player ();
+				connect_player_signals ();
+			}
+			player.load_uri (this.uri);
+		}
+
+
+
 		private bool window_delete_event_cb (Gtk.Widget widget, Gdk.EventAny event) {
 
 			int w;
@@ -318,7 +335,7 @@ namespace Balss {
 
 		private void duration_changed_cb (double dur) {
 
-			this.lb = null;
+			clear_ui_interface ();
 			this.duration = dur;
 
 			if (0 < player.get_chapter_count () )
@@ -335,7 +352,39 @@ namespace Balss {
 				this.progress.visible = false;
 				this.seek_bar.set_range (0, this.duration);
 			}
-			volume_changed_cb (this.player.get_volume () ); //not always emitted
+		}
+
+
+
+		private void position_updated_cb (double pos) {
+
+			if (this.was_eos) {
+				player.pause ();
+				this.was_eos = false;
+			}
+			if (!this.speed_was_setted) {
+				player.set_speed ( (double) App.preferences.playback_speed);
+				this.speed_was_setted = true;
+			}
+			if (!initial_volume_was_setted) {
+				volume_changed_cb (this.player.get_volume () ); // setup volumebutton
+				initial_volume_was_setted = true;
+			}
+			set_progress_fraction (pos);
+			info.total_time = "%s / %s".printf (
+			                               to_hhmmss (pos),
+			                               to_hhmmss(this.duration)
+			                            );
+			seek_bar.value_changed.disconnect (seek_bar_value_changed_cb);
+			seek_bar.set_value (pos);
+			seek_bar.value_changed.connect (seek_bar_value_changed_cb);
+
+			if (audiobook) {
+
+				info.chapter_time = "%s / %s".printf (
+				        to_hhmmss (pos - this.current_chapter_offset),
+				        to_hhmmss (this.current_chapter_duration) );
+			}
 		}
 
 
@@ -368,32 +417,14 @@ namespace Balss {
 
 		private void metadata_updated_cb () {
 
-			info.title = (player.metadata.title != null) ? player.metadata.title : this.basename;
-			info.artist = (player.metadata.artist != null) ? player.metadata.artist : "";
-			string genre = (player.metadata.genre != null) ? player.metadata.genre : "";
-			string year = (player.metadata.date != null) ? player.metadata.date.substring (0, 4) : "";
-			info.genre = "%s   %s".printf (genre, year);
-		}
-
-
-
-		private void position_updated_cb (double pos) {
-
-			set_progress_fraction (pos);
-			info.total_time = "%s / %s".printf (
-			                               to_hhmmss (pos),
-			                               to_hhmmss(this.duration)
-			                            );
-			seek_bar.value_changed.disconnect (seek_bar_value_changed_cb);
-			seek_bar.set_value (pos);
-			seek_bar.value_changed.connect (seek_bar_value_changed_cb);
-
-			if (audiobook) {
-
-				info.chapter_time = "%s / %s".printf (
-				        to_hhmmss (pos - this.current_chapter_offset),
-				        to_hhmmss (this.current_chapter_duration) );
+			info.title = (player.metadata.title != "") ? player.metadata.title : this.basename;
+			info.artist = (player.metadata.artist != "") ? player.metadata.artist : "";
+			string genre = (player.metadata.genre != "") ? player.metadata.genre : "";
+			string year = "";
+			if (player.metadata.date.length > 3) {
+				year = player.metadata.date.substring (0, 4);
 			}
+			info.genre = "%s   %s".printf (genre, year);
 		}
 
 
@@ -402,7 +433,7 @@ namespace Balss {
 
 			int count = player.get_chapter_count ();
 
-			info.chapter_index = "%d / %d".printf ( i + 1, count);
+			info.chapter_index = "%d / %d".printf (i+1, count);
 			info.chapter_title = this.list.nth_data (i).title;
 
 			this.current_chapter_offset = this.list.nth_data (i).offset;

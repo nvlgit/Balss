@@ -54,7 +54,6 @@ namespace Balss {
 
 			Gtk.ListBoxRow last_row = this.list.get_row_at_index (last_index);
 			Gtk.StyleContext last_ctx = ( (Balss.ChapterRow) last_row).get_style_context ();
-//			last_ctx.remove_class ("mark");
 			last_ctx.remove_class ("balss-active-chapter-row");
 
 			Gtk.ListBoxRow row = this.list.get_row_at_index (i);

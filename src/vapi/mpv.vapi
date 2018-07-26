@@ -224,7 +224,7 @@ namespace Mpv {
 		public Mpv.Error get_property_int64 (string name, Mpv.Format format, out int64 data);
 
 		[CCode (cname = "mpv_get_property", simple_generics = true, has_target = false)]
-		public Mpv.Error get_property_node (string name, Mpv.Format format, out Mpv.Node data); //FIXME
+		public Mpv.Error get_property_node (string name, Mpv.Format format, out Mpv.Node data);
 
 		public string get_property_string (string name);
 		public string get_property_osd_string (string name);
@@ -239,9 +239,6 @@ namespace Mpv {
 		public void wait_async_requests ();
 		public Mpv.Error hook_add (uint64 reply_userdata, string name, int priority);
 		public Mpv.Error hook_continue (uint64 id);
-		//[CCode (cname = "cb", has_target = true, simple_generics = true)]
-		//public delegate void CB (void *d);
-		//[CCode (cname = "mpv_set_wakeup_callback", simple_generics = true, has_target =true)]
 		public void set_wakeup_callback (CallBack callback);
 	}
 	[CCode (cname = "cb", simple_generics = true, has_target = true)]
