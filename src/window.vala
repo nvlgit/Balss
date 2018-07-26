@@ -431,6 +431,11 @@ namespace Balss {
 
 		private void chapter_changed_cb (int i) {
 
+			if (i < 0) { //FIXME sametimes -1
+				debug ("Negative chapter index: %d", i);
+				i = 0;
+			}
+
 			int count = player.get_chapter_count ();
 
 			info.chapter_index = "%d / %d".printf (i+1, count);

@@ -285,7 +285,7 @@ namespace Balss {
 
 			int64? i = (int64) index;
 			check ("20",
-				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
+				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "chapter",
 				                        Mpv.Format.INT64,
 				                        i) );
@@ -308,7 +308,7 @@ namespace Balss {
 		public void set_position (double? p) {
 
 			check ("22",
-				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
+				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "time-pos",
 				                        Mpv.Format.DOUBLE,
 				                        p) );
@@ -358,7 +358,7 @@ namespace Balss {
 
 			int? i = (pause == false) ? 0 : 1;
 			check ("25",
-				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
+				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "pause",
 				                        Mpv.Format.FLAG,
 				                        i) );
@@ -382,7 +382,7 @@ namespace Balss {
 		public void set_volume (double? vol) {
 
 			check ("27",
-				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
+				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "ao-volume",
 				                        Mpv.Format.DOUBLE,
 				                        vol) );
@@ -406,7 +406,7 @@ namespace Balss {
 
 			int m = (mute == false) ? 0 : 1;
 			check ("29",
-				ctx.set_property_async (Mpv.EventID.SET_PROPERTY_REPLY,
+				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "ao-mute",
 				                        Mpv.Format.FLAG,
 				                        m) );
