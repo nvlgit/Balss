@@ -37,12 +37,10 @@ namespace Balss {
 		private bool speed_was_setted;
 		private bool was_eos;
 		private bool initial_volume_was_setted;
+		private bool seek_needed;
 
 		private bool audiobook;
 		private string basename;
-		private string uri;
-		private string last_uri;
-		private double last_position;
 
 		[GtkChild] private Gtk.Stack win_stack;
 		[GtkChild] private Gtk.Stack header_stack;
@@ -71,6 +69,7 @@ namespace Balss {
 			this.current_chapter_duration = 0;
 			this.audiobook = false;
 			this.speed_was_setted = false;
+			this.seek_needed = false;
 			this.was_eos = false;
 			this.initial_volume_was_setted = false;
 
@@ -93,8 +92,6 @@ namespace Balss {
 
 			notification_switch.active = App.preferences.show_notifications;
 			play_last_switch.active = App.preferences.play_last;
-			this.last_uri = App.preferences.last_uri;
-			this.last_position = App.preferences.last_position;
 
 			prefs_speed_spin_button.value = App.preferences.playback_speed;
 			playback_speed_spin_button.value = App.preferences.playback_speed;
@@ -104,14 +101,28 @@ namespace Balss {
 			this.delete_event.connect (window_delete_event_cb);
 
 			connect_prefs_signals ();
+
+			if (App.preferences.play_last) { // when startup without argument
+				if (App.preferences.last_uri.length > 6) {
+					this.seek_needed = true;
+					open (App.preferences.last_uri);
+				}
+			}
 		}
 
 
 
 		public void open (string uri) {
 
-			this.uri = uri;
-			basename = File.new_for_uri (uri).get_basename ();
+			if (App.preferences.play_last) {
+				if (uri == App.preferences.last_uri) {
+					this.seek_needed = true;
+				}
+			}
+			if (App.preferences.last_uri != uri) {
+				App.preferences.last_uri = uri;
+			}
+			basename = File.new_for_uri (App.preferences.last_uri).get_basename ();
 			if (player != null) {
 				player.destroy_context ();
 				player = null;
@@ -119,7 +130,7 @@ namespace Balss {
 				connect_player_signals ();
 			}
 			this.speed_was_setted = false;
-			player.load_uri (this.uri); //FIXME Play last position
+			player.load_uri (App.preferences.last_uri);
 		}
 
 
@@ -303,19 +314,30 @@ namespace Balss {
 				player = new Player ();
 				connect_player_signals ();
 			}
-			player.load_uri (this.uri);
+			player.load_uri (App.preferences.last_uri);
 		}
 
 
 
 		private bool window_delete_event_cb (Gtk.Widget widget, Gdk.EventAny event) {
 
+			on_close_window ();
+			return false;
+		}
+
+
+
+		public void on_close_window () {
+
 			int w;
 			int h;
+			player.pause ();
+			App.preferences.last_position = player.get_position ();
 			this.get_size (out w, out h);
 			App.preferences.window_width = w;
 			App.preferences.window_height = h;
-			return false;
+			player.destroy_context ();
+			player = null;
 		}
 
 
@@ -367,8 +389,12 @@ namespace Balss {
 				this.speed_was_setted = true;
 			}
 			if (!initial_volume_was_setted) {
-				volume_changed_cb (this.player.get_volume () ); // setup volumebutton
+				volume_changed_cb (this.player.get_volume () ); // set volumebutton value
 				initial_volume_was_setted = true;
+			}
+			if (this.seek_needed) {
+				this.seek_needed = false;
+				player.set_position (App.preferences.last_position);
 			}
 			set_progress_fraction (pos);
 			info.total_time = "%s / %s".printf (

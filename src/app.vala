@@ -124,6 +124,7 @@ namespace Balss {
 
 		void quit_cb (SimpleAction action, Variant? parameter) {
 
+			this.win.on_close_window ();
 			this.quit ();
 		}
 
