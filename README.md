@@ -6,7 +6,7 @@ Balss is an easy to use player for audiobook files with chapters such as m4b or 
 * Setup playback rate (including setup default playback rate)
 * Capability to resume playback last played file from stopped position
 
-![ScreenShot](https://user-images.githubusercontent.com/29505119/43223177-eb86f428-905a-11e8-96fc-e33a66e0a5ac.png)
+![ScreenShot](https://user-images.githubusercontent.com/29505119/46797894-10a78e80-cd59-11e8-8c1f-7d3041870cf9.png)
 
 ### Building and Installation
 

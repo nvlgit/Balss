@@ -103,13 +103,12 @@ namespace Balss {
 
 
 
-		void shortcuts_cb (SimpleAction action, Variant? parameter) {
-/*
-		var builder = new Gtk.Builder.from_resource ( //FIXME
-		                  "/com/gitlab........./shortcuts-window.ui");
-		var shortcuts_window = (Gtk.Window) builder.get_object ("shortcuts-window");
-		shortcuts_window.show ();
-*/
+		private void shortcuts_cb (SimpleAction action, Variant? parameter) {
+
+			var builder = new Gtk.Builder.from_resource (
+			                  "/com/gitlab/nvlgit/Balss/shortcuts-window.ui");
+			var shortcuts_window = (Gtk.Window) builder.get_object ("shortcuts-window");
+			shortcuts_window.show ();
 		}
 
 

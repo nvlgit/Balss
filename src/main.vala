@@ -28,6 +28,7 @@ public static int main (string[] args) {
 	Intl.bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	Intl.bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	Intl.textdomain (GETTEXT_PACKAGE);
+	GLib.Environment.set_prgname (APP_ID);
 
 	var app = new Balss.App ();
 	return app.run (args);

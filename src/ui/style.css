@@ -11,71 +11,51 @@
 	}
 
 .balss-listbox-background {
-	background-color: alpha (@theme_bg_color, 0.4 );
+  background-color: alpha ( @theme_bg_color, 0.5 );
 }
 
-.balss-slider slider {
-    min-height: 15px;
-    min-width: 15px;
-    margin: -7px;
-    border-radius: 100%;
-  }
-
-.balss-chapter-row {
-
-	border-style: solid;
-	color: @theme_text_color;
-	border-color: alpha ( @theme_text_color, 0.15 );
-	border-width: 2px;
-	border-radius: 100px;
-
-	background-color: @theme_base_color;
+.balss-seekbar trough {
+  background-color: alpha ( @theme_selected_fg_color, 0.1 );
+  background-image: none;
+  background-size: cover;
+  background-clip: content-box;
+  border-color: alpha ( @theme_selected_fg_color, 0.7 );
 }
 
-.balss-chapter-row:hover {
+.balss-seekbar trough highlight {
+  background-color: alpha ( @theme_selected_fg_color, 0.9 );
+  background-size: cover;
+  background-clip: content-box;
+  border-color: alpha ( @theme_selected_fg_color, 0.7 );
 
-	background-color: alpha (@theme_fg_color, 0.05 );
-	color: @theme_fg_color;
 }
 
-.balss-chapter-row:focus {
+.balss-seekbar slider {
+  box-shadow: none;
+  border-color: transparent;
+  background-color: transparent;
+  background-image: none;
+  background-size: cover;
+}
 
-	outline-style: none;
-	border-color: @theme_selected_bg_color;
-	border-width: 2px;
-	border-style: dashed;
+.balss-seekbar slider:active,
+.balss-seekbar slider:hover,
+.balss-seekbar:hover slider {
+  background-color: @theme_selected_fg_color;
+  border-color: alpha ( black, 0.2 );
+}
+
+/* workaraund for linked style */
+.balss-frame border {
+	border-right-width: 0px;
+
 }
 
 .balss-active-chapter-row {
 	background-color: @theme_selected_bg_color;
 	color: @theme_selected_fg_color;
-	border-style:solid;
-	border-radius: 100px;
-	border-color: @theme_selected_bg_color;
-	border-width: 2px;
-}
-
-.balss-active-chapter-row:hover {
-	background-color: alpha (@theme_selected_bg_color, 0.9 );
-	color: @theme_selected_fg_color;
 }
 
 .balss-active-chapter-row:backdrop label{
 	color: @theme_selected_fg_color;
-}
-
-.balss-vertical-spinbutton button.down, button.up {
-
-	background-color: transparent;
-	background-image: none;
-	border-style: none;
-	border-width: 0;
-
-}
-.balss-vertical-spinbutton button.down:hover, button.up:hover, button.down:active, button.up:active {
-
-	background-color: alpha ( @theme_fg_color, 0.1 );
-	background-image: none;
-	border-style: none;
-
 }

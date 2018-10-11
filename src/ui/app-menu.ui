@@ -5,18 +5,21 @@
       <item>
         <attribute name="label" translatable="yes">_Open</attribute>
         <attribute name="action">app.open</attribute>
+        <attribute name="accel">&lt;Primary&gt;o</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
         <attribute name="action">app.prefs</attribute>
+        <attribute name="accel">&lt;Primary&gt;comma</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
         <attribute name="action">app.shortcuts</attribute>
+        <attribute name="accel">&lt;ctrl&gt;&lt;shift&gt;question</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">About</attribute>
@@ -25,7 +28,9 @@
       <item>
         <attribute name="label" translatable="yes">Quit</attribute>
         <attribute name="action">app.quit</attribute>
+        <attribute name="accel">&lt;Primary&gt;q</attribute>
       </item>
     </section>
   </menu>
 </interface>
+

@@ -27,7 +27,7 @@ namespace Balss {
 		private bool   _play_last;
 		private string _last_uri;
 		private double _last_position;
-		private double _playback_speed;
+		private double _playback_rate;
 		private bool   _show_notifications;
 		private int    _window_width;
 		private int    _window_height;
@@ -41,7 +41,7 @@ namespace Balss {
 			_play_last = settings.get_boolean ("play-last");
 			_last_uri = settings.get_string ("last-uri");
 			_last_position = settings.get_double ("last-position");
-			_playback_speed = settings.get_double ("playback-rate");
+			_playback_rate = settings.get_double ("playback-rate");
 			_show_notifications = settings.get_boolean ("show-notifications");
 			_window_width = settings.get_int ("window-width");
 			_window_height = settings.get_int ("window-height");
@@ -84,11 +84,11 @@ namespace Balss {
 			}
 		}
 
-		public double playback_speed {
+		public double playback_rate {
 
-			get { return _playback_speed; }
+			get { return _playback_rate; }
 			set {
-				_playback_speed = value;
+				_playback_rate = value;
 				settings.set_double ("playback-rate", value);
 			}
 		}
@@ -118,13 +118,6 @@ namespace Balss {
 				_window_height = value;
 				settings.set_int ("window-height", value);
 			}
-		}
-
-
-
-		public void apply () {
-
-			settings.apply ();
 		}
 	}
 

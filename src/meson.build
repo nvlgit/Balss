@@ -6,8 +6,9 @@ balss_sources = [
   'app-prefs.vala',
   'chapter-row.vala',
   'chapter-list-box.vala',
-  'info-display.vala',
+  'chapter-indicator.vala',
   'mpv-wrapper-backend.vala',
+  'prefs-page.vala',
 ]
 
 c_args = [

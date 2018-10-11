@@ -14,7 +14,7 @@
       <default>true</default>
       <summary>Resume playback on startup</summary>
       <description>
-        Resume playback the last played URI on startup
+        Resume playback the last played URI
       </description>
     </key>
 
@@ -39,9 +39,9 @@
 
     <key name="show-notifications" type="b">
       <default>false</default>
-      <summary>Notify about a new chapter</summary>
+      <summary>Show desktop notifications</summary>
       <description>
-        Show desktop notifications for each new chapter
+        Notify about a new chapter
       </description>
     </key>
 

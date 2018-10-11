@@ -3,13 +3,16 @@
   <gresource prefix="/com/gitlab/nvlgit/Balss">
     <file>app-menu.ui</file>
     <file>window.ui</file>
-    <file>prefs.ui</file>
+    <file>prefs-page.ui</file>
     <file>chapter-row.ui</file>
     <file>chapter-list-box.ui</file>
-    <file>info-display.ui</file>
+    <file>chapter-indicator.ui</file>
+    <file>shortcuts-window.ui</file>
     <file>style.css</file>
   </gresource>
   <gresource prefix="/com/gitlab/nvlgit/Balss/icons">
     <file alias="media-playback-rate-symbolic.svg">media-playback-rate-symbolic.svg</file>
+    <file alias="media-playback-rate-prefix-symbolic.svg">media-playback-rate-prefix-symbolic.svg</file>
+    <file alias="balss-controls-symbolic.svg">balss-controls-symbolic.svg</file>
   </gresource>
 </gresources>

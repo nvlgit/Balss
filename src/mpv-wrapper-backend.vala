@@ -53,7 +53,7 @@ namespace Balss {
 		public signal void            volume_changed (double volume);
 		public signal void              mute_changed (bool mute);
 		public signal void           chapter_changed (int index);
-		public signal void             speed_changed (double speed);
+		public signal void              rate_changed (double speed);
 		public signal void          duration_changed (double duration);
 		public signal void          position_updated (double position);
 		public signal void             pause_changed (bool pause);
@@ -108,7 +108,7 @@ namespace Balss {
 			check ("3", ctx.set_option_string ("audio-client-name",     APP_ID) );
 			check ("4", ctx.set_option_string ("config",                  "no") );
 			check ("5", ctx.set_option_string ("title",                    "-") );
-			check ("6", ctx.set_option_string ("log-file",    "libmpv-log.txt") ); // for debug
+			//check ("6", ctx.set_option_string ("log-file",    "libmpv-log.txt") ); // for debug
 		}
 
 
@@ -203,7 +203,7 @@ namespace Balss {
 					if ("speed" == prop.name) {
 						if (prop.format == Mpv.Format.DOUBLE) {
 							double s = *(double*) ( ( (Mpv.EventProperty<double>) prop).data);
-							speed_changed (s); // Emit signal
+							rate_changed (s); // Emit signal
 						}
 					}
 				}
@@ -284,11 +284,13 @@ namespace Balss {
 		public void set_chapter (int index) {
 
 			int64? i = (int64) index;
-			check ("20",
-				ctx.set_property_async (Mpv.EventID.NONE,
-				                        "chapter",
-				                        Mpv.Format.INT64,
-				                        i) );
+			if (get_chapter() != index) {
+				check ("20",
+					ctx.set_property_async (Mpv.EventID.NONE,
+						                    "chapter",
+						                    Mpv.Format.INT64,
+						                    i) );
+			}
 		}
 
 
@@ -414,10 +416,34 @@ namespace Balss {
 
 
 
-		public double get_speed () {
+		public bool get_soft_mute () {
+
+			int i;
+			check ("30",
+				ctx.get_property_flag ("mute",
+				                       Mpv.Format.FLAG,
+				                       out i) );
+			return (bool) (i == 0) ? false : true;
+		}
+
+
+
+		public void set_soft_mute (bool? mute) {
+
+			int m = (mute == false) ? 0 : 1;
+			check ("31",
+				ctx.set_property_async (Mpv.EventID.NONE,
+				                        "mute",
+				                        Mpv.Format.FLAG,
+				                        m) );
+		}
+
+
+
+		public double get_rate () {
 
 			double s;
-			check ("30",
+			check ("32",
 				ctx.get_property_flag ("speed",
 				                       Mpv.Format.FLAG,
 				                       out s) );
@@ -426,9 +452,9 @@ namespace Balss {
 
 
 
-		public void set_speed (double? speed) {
+		public void set_rate (double? speed) {
 
-			check ("31",
+			check ("33",
 				ctx.set_property_async (Mpv.EventID.NONE,
 				                        "speed",
 				                        Mpv.Format.DOUBLE,
@@ -442,7 +468,7 @@ namespace Balss {
 			Mpv.Node node;
 			string key = "";
 
-			check ("32",
+			check ("34",
 				ctx.get_property_node ("metadata", Mpv.Format.NODE, out node) );
 
 			if (node.format == Mpv.Format.NODE_MAP) {
@@ -481,7 +507,7 @@ namespace Balss {
 					}
 				}
 			}
-			check ("33", ctx.set_option_string ("title", metadata.title) );
+			check ("35", ctx.set_option_string ("title", metadata.title) );
 		}
 
 

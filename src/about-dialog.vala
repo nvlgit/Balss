@@ -31,9 +31,9 @@ namespace Balss {
 			this.program_name = "Balss";
 
 			this.version = VERSION;
-			this.comments = _("Simple audio book player");
-			this.website = "https://github.com/nvlgit/balss";
-			this.website_label = null;
+			this.comments = _("Audiobook player");
+			this.website = "https://github.com/nvlgit/Balss";
+			this.website_label = "Balss on gitlab.com";
 			this.copyright = "Copyright © 2018 Nick";
 
 			this.artists = null;
