@@ -153,21 +153,21 @@ namespace Balss {
 
 					if ("duration" == prop.name) {
 						if (prop.format == Mpv.Format.DOUBLE) {
-							double d = *(double*) ( ( (Mpv.EventProperty<double>) prop).data);
+							double d = *(double*) ( (Mpv.EventProperty<void>) prop).data;
 							duration_changed (d); // Emit signal
 						}
 					}
 
 					if ("time-pos" == prop.name) {
 						if (prop.format == Mpv.Format.DOUBLE) {
-							double pos = *(double*) ( ( (Mpv.EventProperty<double>) prop).data);
+							double pos = *(double*) ( (Mpv.EventProperty<void>) prop).data;
 							position_updated (pos); // Emit signal
 						}
 					}
 
 					if ("pause" == prop.name) {
 						if (prop.format == Mpv.Format.FLAG) {
-							int i = *(int*) ( ( (Mpv.EventProperty<int>) prop).data);
+							int i = *(int*) ( (Mpv.EventProperty<void>)prop).data;
 							bool p = (i == 0) ? false : true;
 							pause_changed (p); // Emit signal
 						}
@@ -175,14 +175,14 @@ namespace Balss {
 
 					if ("ao-volume" == prop.name) {
 						if (prop.format == Mpv.Format.DOUBLE) {
-							double vol = *(double*) ( ( (Mpv.EventProperty<double>) prop).data);
+							double vol = *(double*) ( (Mpv.EventProperty<void>) prop).data;
 							volume_changed (vol); // Emit signal
 						}
 					}
 
 					if ("ao-mute" == prop.name) {
 						if (prop.format == Mpv.Format.FLAG) {
-							int i = *(int*) ( ( (Mpv.EventProperty<int>) prop).data);
+							int i = *(int*) ( (Mpv.EventProperty<void>) prop).data;
 							bool m = (i == 0) ? false : true;
 							mute_changed (m); // Emit signal
 						}
@@ -195,14 +195,14 @@ namespace Balss {
 
 					if ("chapter" == prop.name) {
 						if (prop.format == Mpv.Format.INT64) {
-							int index = (int) *(int64*) ( ( (Mpv.EventProperty<int64>) prop).data);
+							int index = (int) *(int64*) ( (Mpv.EventProperty<void>) prop).data;
 							chapter_changed (index); // Emit signal
 						}
 					}
 
 					if ("speed" == prop.name) {
 						if (prop.format == Mpv.Format.DOUBLE) {
-							double s = *(double*) ( ( (Mpv.EventProperty<double>) prop).data);
+							double s = *(double*) ( (Mpv.EventProperty<void>) prop).data;
 							rate_changed (s); // Emit signal
 						}
 					}
