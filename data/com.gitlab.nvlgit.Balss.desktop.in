@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Balss
-Exec=Icon=@app_id@
+Exec=@app_id@
 Terminal=false
 Type=Application
 Icon=@app_id@
