@@ -4,6 +4,6 @@ Exec=@app_id@
 Terminal=false
 Type=Application
 Icon=@app_id@
-Categories=GTK;GNOME;Audio;Player;
+Categories=GTK;GNOME;AudioVideo;Player;
 StartupNotify=true
 Comment=Simple audio book player
