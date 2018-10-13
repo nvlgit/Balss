@@ -1,0 +1,103 @@
+app-id: com.gitlab.nvlgit.Balss
+
+runtime: org.gnome.Platform
+runtime-version: master
+
+sdk: org.gnome.Sdk
+
+command: com.gitlab.nvlgit.Balss
+
+build-options:
+      cflags: -O2 -g
+      cxxflags: -O2 -g
+
+cleanup:
+    - "/include"
+    - "/debug"
+
+finish-args:
+    - "--device=dri"
+    - "--socket=x11"
+    - "--share=ipc"
+    - "--socket=wayland"
+    - "--socket=pulseaudio"
+    - "--filesystem=host:ro"
+    - "--filesystem=xdg-run/dconf"
+    - "--filesystem=~/.config/dconf:ro"
+    - "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+    - "--talk-name=ca.desrt.dconf"
+
+modules:
+
+    - name: ffmpeg
+
+      sources:
+          - type: archive
+            url: https://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz
+            sha256: "a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97"
+
+      config-opts: 
+          - "--disable-everything"
+          - "--enable-shared"
+          - "--disable-static"
+          - "--disable-doc"
+          - "--disable-programs"
+          - "--enable-decoder=aac"
+          - "--enable-decoder=alac"
+          - "--enable-decoder=ac3"
+          - "--enable-decoder=mp3"
+          - "--enable-decoder=vorbis"
+          - "--enable-decoder=opus"
+          - "--enable-parser=vorbis"
+          - "--enable-parser=aac"
+          - "--enable-parser=ac3"
+          - "--enable-demuxer=aac"
+          - "--enable-demuxer=matroska"
+          - "--enable-demuxer=ac3"
+          - "--enable-demuxer=mp3"
+          - "--enable-demuxer=mov"
+
+
+      cleanup:
+
+          - "/include"
+          - "/lib/pkgconfig"
+          - "/share/ffmpeg/examples"
+
+
+    - name: libmpv
+      sources:
+
+          - type: git
+            url: https://github.com/mpv-player/mpv.git
+            tag: v0.28.2
+
+          - type: file
+            url: https://waf.io/waf-2.0.9
+            sha256: "2a8e0816f023995e557f79ea8940d322bec18f286917c8f9a6fa2dc3875dfa48"
+            dest-filename: waf
+
+      buildsystem: simple
+
+      build-commands:
+
+          - python3 waf configure --prefix=/app --libdir=/app/lib --enable-libmpv-shared --disable-cplayer --disable-build-date --disable-android --disable-libass --disable-lua --disable-javascript --disable-cplugins --enable-pulse --disable-vulkan --disable-vdpau --disable-x11 --disable-oss-audio --disable-alsa --disable-manpage-build --disable-debug-build --disable-libbluray
+          - python3 waf
+          - python3 waf install
+
+      cleanup:
+
+          - "/include"
+          - "/lib/pkgconfig"
+
+
+    - name: Balss
+
+      sources:
+          - type: git
+            url: https://gitlab.com/nvlgit/Balss.git
+      buildsystem: meson
+      builddir: true
+
+
+
