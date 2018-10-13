@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
-  <object class="GtkAdjustment" id="current_speed_adjustment">
+  <object class="GtkAdjustment" id="current_rate_adjustment">
     <property name="lower">0.5</property>
     <property name="upper">2</property>
     <property name="value">1</property>
@@ -13,6 +13,121 @@
     <property name="upper">1</property>
     <property name="step_increment">0.01</property>
     <property name="page_increment">10</property>
+  </object>
+  <object class="GtkPopoverMenu" id="menu_popover">
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="border_width">12</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="action_name">app.open</property>
+            <property name="text" translatable="yes">_Open</property>
+            <accelerator key="o" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="action_name">app.prefs</property>
+            <property name="text" translatable="yes">_Preferences</property>
+            <accelerator key="comma" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="action_name">app.shortcuts</property>
+            <property name="text" translatable="yes">_Keyboard Shortcuts</property>
+            <accelerator key="question" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="action_name">app.about</property>
+            <property name="text" translatable="yes">_About</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="action_name">app.quit</property>
+            <property name="text" translatable="yes">_Quit</property>
+            <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="submenu">main</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
   </object>
   <object class="GtkPopover" id="controls_popover">
     <property name="can_focus">False</property>
@@ -165,7 +280,7 @@
                 <property name="primary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">False</property>
                 <property name="input_purpose">number</property>
-                <property name="adjustment">current_speed_adjustment</property>
+                <property name="adjustment">current_rate_adjustment</property>
                 <property name="digits">2</property>
                 <property name="value">1</property>
                 <signal name="value-changed" handler="playback_rate_spin_button_value_changed_cb" swapped="no"/>
@@ -386,6 +501,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="popover">menu_popover</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/com/gitlab/nvlgit/Balss">
-    <file>app-menu.ui</file>
     <file>window.ui</file>
     <file>prefs-page.ui</file>
     <file>chapter-row.ui</file>

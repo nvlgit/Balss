@@ -35,7 +35,6 @@ namespace Balss {
 		[GtkChild] private Gtk.Image play_image;
 		[GtkChild] private Gtk.Scale volume_scale;
 		[GtkChild] private Gtk.Box chapter_list_placeholder_box;
-		[GtkChild] private Gtk.MenuButton button_menu;
 		[GtkChild] private Gtk.MenuButton controls_button;
 		[GtkChild] private Gtk.SpinButton playback_rate_spin_button;
 		[GtkChild] private Gtk.Box bottom_placeholder_box;
@@ -77,7 +76,6 @@ namespace Balss {
 			this.initial_volume_was_setted = false;
 			this.chapter_changed_init =false;
 
-			bind_menu_to_button_menu ();
 			indicator = new ChapterIndicator ();
 			indicator.button_clicked.connect (indicator_button_clicked);
 			bottom_placeholder_box.pack_start (this.indicator, true, true, 0);
@@ -168,20 +166,6 @@ namespace Balss {
 			player.mute_changed.connect ( (m) => { //FIXME Needed?
 				//debug ("Mute: %s\n", (m == false) ? "Unmuted" : "Muted" );
 			});
-		}
-
-
-
-		private void bind_menu_to_button_menu () {
-
-			builder = new Gtk.Builder ();
-			try {
-				builder.add_from_resource ("/com/gitlab/nvlgit/Balss/app-menu.ui");
-				var menu = builder.get_object ("app-menu") as GLib.MenuModel;
-				button_menu.set_menu_model (menu);
-			} catch (Error e) {
-				error ("%s", e.message);
-			}
 		}
 
 

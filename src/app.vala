@@ -153,9 +153,6 @@ namespace Balss {
 			icon_theme.add_resource_path("/com/gitlab/nvlgit/Balss/icons");
 
 			this.add_action_entries (actions, this);
-			var builder = new Gtk.Builder.from_resource ("/com/gitlab/nvlgit/Balss/app-menu.ui");
-			var appmenu = (GLib.MenuModel) builder.get_object ("app-menu");
-			this.set_app_menu (appmenu);
 		}
 
 
