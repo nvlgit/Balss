@@ -444,9 +444,9 @@ namespace Balss {
 
 			double s;
 			check ("32",
-				ctx.get_property_flag ("speed",
-				                       Mpv.Format.FLAG,
-				                       out s) );
+				ctx.get_property_double ("speed",
+				                         Mpv.Format.DOUBLE,
+				                         out s) );
 			return (double) s;
 		}
 
