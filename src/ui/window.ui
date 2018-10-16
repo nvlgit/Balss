@@ -507,6 +507,7 @@
                     <property name="icon_name">open-menu-symbolic</property>
                   </object>
                 </child>
+                <accelerator key="F10" signal="clicked"/>
               </object>
               <packing>
                 <property name="pack_type">end</property>
@@ -526,7 +527,7 @@
                     <property name="icon_name">balss-controls-symbolic</property>
                   </object>
                 </child>
-                <accelerator key="F10" signal="activate"/>
+                <accelerator key="F9" signal="clicked"/>
               </object>
               <packing>
                 <property name="pack_type">end</property>
