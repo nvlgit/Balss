@@ -40,12 +40,67 @@
                 <property name="title" translatable="yes" context="shortcut window">Quit</property>
               </object>
             </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">F9</property>
+                <property name="title" translatable="yes" context="shortcut window">Popup controls</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">F10</property>
+                <property name="title" translatable="yes" context="shortcut window">Popup main menu</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="visible">true</property>
+            <property name="title" translatable="yes" context="shortcut window">Volume</property>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">9</property>
+                <property name="title" translatable="yes" context="shortcut window">Decrease volume</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">0</property>
+                <property name="title" translatable="yes" context="shortcut window">Increase volume</property>
+              </object>
+            </child>
           </object>
         </child>
         <child>
           <object class="GtkShortcutsGroup">
             <property name="visible">true</property>
             <property name="title" translatable="yes" context="shortcut window">Playback</property>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">P space</property>
+                <property name="title" translatable="yes" context="shortcut window">Play / Pause</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">&lt;ctrl&gt;Up</property>
+                <property name="title" translatable="yes" context="shortcut window">Play previous chapter</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">&lt;ctrl&gt;Down</property>
+                <property name="title" translatable="yes" context="shortcut window">Play next chapter</property>
+              </object>
+            </child>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">true</property>
@@ -65,12 +120,26 @@
         <child>
           <object class="GtkShortcutsGroup">
             <property name="visible">true</property>
-            <property name="title" translatable="yes" context="shortcut window">Advanced controls</property>
+            <property name="title" translatable="yes" context="shortcut window">Playback</property>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">true</property>
-                <property name="accelerator">F10</property>
-                <property name="title" translatable="yes" context="shortcut window">Popup controls</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;braceleft</property>
+                <property name="title" translatable="yes" context="shortcut window">Decrease rate (-0.05)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;braceright</property>
+                <property name="title" translatable="yes" context="shortcut window">Increase rate (+0.05)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">true</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;BackSpace</property>
+                <property name="title" translatable="yes" context="shortcut window">Reset rate to 1×</property>
               </object>
             </child>
           </object>
@@ -79,5 +148,6 @@
     </child>
   </object>
 </interface>
+
 
 

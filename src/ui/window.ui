@@ -23,13 +23,12 @@
         <property name="border_width">12</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="open_menu_item">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="action_name">app.open</property>
             <property name="text" translatable="yes">_Open</property>
-            <accelerator key="o" signal="activate" modifiers="GDK_CONTROL_MASK"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -51,13 +50,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="prefs_menu_item">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="action_name">app.prefs</property>
             <property name="text" translatable="yes">_Preferences</property>
-            <accelerator key="comma" signal="activate" modifiers="GDK_CONTROL_MASK"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -79,13 +77,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="shotcuts_menu_item">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="action_name">app.shortcuts</property>
             <property name="text" translatable="yes">_Keyboard Shortcuts</property>
-            <accelerator key="question" signal="activate" modifiers="GDK_CONTROL_MASK"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -406,6 +403,7 @@
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
+                    <property name="vexpand">True</property>
                     <property name="receives_default">False</property>
                     <signal name="clicked" handler="seek_backward_button_clicked_cb" swapped="no"/>
                     <child>
@@ -425,10 +423,10 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="button_play">
-                    <property name="width_request">48</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
+                    <property name="vexpand">True</property>
                     <property name="receives_default">False</property>
                     <signal name="clicked" handler="button_play_clicked_cb" swapped="no"/>
                     <child>
@@ -474,6 +472,7 @@
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
+                    <property name="vexpand">True</property>
                     <property name="receives_default">False</property>
                     <signal name="clicked" handler="seek_forward_button_clicked_cb" swapped="no"/>
                     <child>

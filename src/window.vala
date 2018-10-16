@@ -39,6 +39,9 @@ namespace Balss {
 		[GtkChild] private Gtk.SpinButton playback_rate_spin_button;
 		[GtkChild] private Gtk.Box bottom_placeholder_box;
 		[GtkChild] private Gtk.Box prefs_placeholder_box;
+		[GtkChild] private Gtk.ModelButton open_menu_item;
+		[GtkChild] private Gtk.ModelButton prefs_menu_item;
+		[GtkChild] private Gtk.ModelButton shotcuts_menu_item;
 
 		private Player? player;
 		private GLib.List<Chapter?>? list;
@@ -84,12 +87,116 @@ namespace Balss {
 			prefs_placeholder_box.pack_start (this.prefs_page, true, true, 0);
 		}
 
+		private bool keypress_cb (Gdk.EventKey event) {
+
+			if (event.type != Gdk.KEY_PRESS)
+				return false;
+
+			switch (event.hardware_keycode) {
+
+				case 32: //Gdk.Key.o
+					if (event.state == Gdk.ModifierType.CONTROL_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.LOCK_MASK)
+						open_menu_item.clicked ();
+					break;
+
+				case 59: //Gdk.Key.comma
+					if (event.state == Gdk.ModifierType.CONTROL_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.LOCK_MASK)
+						prefs_menu_item.clicked ();
+					else
+						return false;
+					break;
+
+				case 61: //Gdk.Key.question
+					if (event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK + Gdk.ModifierType.LOCK_MASK)
+						shotcuts_menu_item.clicked ();
+					else
+						return false;
+					break;
+
+				case 18: // "9"
+					if (event.state == 0)
+						decrease_volume ();
+					else
+						return false;
+					break;
+
+				case 19: // "0"
+					if (event.state == 0)
+						increase_volume ();
+					else
+						return false;
+					break;
+
+				case 33: // "P"
+				case 65: // "Space"
+					if (event.state == 0)
+						button_play_clicked_cb ();
+					else
+						return false;
+					break;
+
+				case 80:  //Gdk.Key.KP_Up:
+				case 111: //Gdk.Key.Up:
+					if (event.state == Gdk.ModifierType.CONTROL_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.LOCK_MASK) {
+						debug ("Ctrl + UP");
+						player.set_previous_chapter ();
+					} else {
+						return false;
+					}
+					break;
+
+				case 88:  //Gdk.Key.KP_Down:
+				case 116: //Gdk.Key.Down:
+					if (event.state == Gdk.ModifierType.CONTROL_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.LOCK_MASK) {
+						debug ("Ctrl + Down");
+						player.set_next_chapter ();
+					} else {
+						return false;
+					}
+					break;
+
+				case 34: // "{"
+					if (event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK + Gdk.ModifierType.LOCK_MASK)
+						decrease_rate ();
+					else
+						return false;
+					break;
+
+				case 35: // "}"
+					if (event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK + Gdk.ModifierType.LOCK_MASK)
+						increase_rate ();
+					else
+						return false;
+					break;
+
+				case 22: //Gdk.Key.BackSpace:
+					if (event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.SHIFT_MASK + Gdk.ModifierType.LOCK_MASK)
+						player.set_rate(1.0);
+					else
+						return false;
+					break;
+
+				default:
+					return false;
+			}
+			debug ("Gtk.EventController");
+			return true;
+		}
 
 		public PlayerWindow (Gtk.Application app) {
 			GLib.Object (application: app);
 
 			this.set_default_size (App.preferences.window_width, App.preferences.window_height);
 			this.delete_event.connect (window_delete_event_cb);
+			this.key_press_event.connect (keypress_cb);
 
 			if (App.preferences.play_last) { // when startup without argument
 				if (App.preferences.last_uri.length > 6) {
@@ -338,6 +445,43 @@ namespace Balss {
 			player = null;
 		}
 
+
+		private void increase_rate () {
+
+			if (this.player == null) return;
+			var rate = this.player.get_rate () + 0.05;
+			if (rate > 2) return;
+			this.player.set_rate (rate);
+		}
+
+
+		private void decrease_rate () {
+
+			if (this.player == null) return;
+			var rate = this.player.get_rate () - 0.05;
+			if (rate < 0.5) return;
+			this.player.set_rate (rate);
+		}
+
+		private void increase_volume () {
+
+			if (this.player == null) return;
+			var val = this.player.get_volume () + 5;
+
+			if (val > 100)
+				val = 100;
+			this.player.set_volume (val);
+		}
+
+
+		private void decrease_volume () {
+
+			if (this.player == null) return;
+			var val = this.player.get_volume () - 5;
+			if (val < 0.0)
+				val = 0;
+			this.player.set_volume (val);
+		}
 
 
 		private void player_pause_changed_cb (bool p) {

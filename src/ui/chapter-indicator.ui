@@ -22,7 +22,6 @@
             <property name="icon_name">media-skip-backward-symbolic</property>
           </object>
         </child>
-        <!--accelerator key="p" signal="activate" modifiers="GDK_MOD1_MASK"/-->
       </object>
       <packing>
         <property name="expand">False</property>
@@ -126,7 +125,6 @@
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
         <signal name="clicked" handler="button_next_clicked_cb" swapped="no"/>
-        <!--accelerator key="n" signal="activate" modifiers="GDK_MOD1_MASK"/-->
         <child>
           <object class="GtkImage">
             <property name="visible">True</property>
