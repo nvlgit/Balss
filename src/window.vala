@@ -42,6 +42,7 @@ namespace Balss {
 		[GtkChild] private Gtk.ModelButton open_menu_item;
 		[GtkChild] private Gtk.ModelButton prefs_menu_item;
 		[GtkChild] private Gtk.ModelButton shotcuts_menu_item;
+		[GtkChild] private Gtk.ModelButton quit_menu_item;
 
 		private Player? player;
 		private GLib.List<Chapter?>? list;
@@ -114,6 +115,16 @@ namespace Balss {
 						shotcuts_menu_item.clicked ();
 					else
 						return false;
+					break;
+
+				case 24: //Gdk.Key.q:
+					if (event.state == Gdk.ModifierType.CONTROL_MASK ||
+					    event.state == Gdk.ModifierType.CONTROL_MASK + Gdk.ModifierType.LOCK_MASK) {
+						debug ("Ctrl + Q");
+						quit_menu_item.clicked ();
+					} else {
+						return false;
+					}
 					break;
 
 				case 18: // "9"

@@ -105,13 +105,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkModelButton" id="quit_menu_item">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="action_name">app.quit</property>
             <property name="text" translatable="yes">_Quit</property>
-            <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
           </object>
           <packing>
             <property name="expand">False</property>
