@@ -1,4 +1,4 @@
-icon_sizes = ['scalable']
+icon_sizes = ['16x16', '24x24', '32x32', '64x64', '128x128', 'scalable']
 
 foreach s: icon_sizes
   install_data(
