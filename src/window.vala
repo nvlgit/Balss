@@ -646,7 +646,7 @@ namespace Balss {
 		private void player_metadata_updated_cb () {
 
 			debug ("metadata_changed");
-			this.header_main.title =
+			this.title = this.header_main.title =
 			   (player.metadata.title != "") ? player.metadata.title : this.basename;
 
 			string artist =
