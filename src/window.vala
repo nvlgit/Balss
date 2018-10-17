@@ -659,7 +659,9 @@ namespace Balss {
 			if (player.metadata.date.length > 3) {
 				year = player.metadata.date.substring (0, 4);
 			}
-			this.header_main.subtitle = "%s   %s   %s".printf (artist, genre, year);
+			this.header_main.subtitle = "%s%s%s".printf (artist,
+			                                             genre != "" ? " • " + genre : "",
+			                                             year != "" ? " • " + year : "");
 		}
 
 
