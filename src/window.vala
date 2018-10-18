@@ -33,23 +33,21 @@ namespace Balss {
 		[GtkChild] private Gtk.Button seek_backward_button;
 		[GtkChild] private Gtk.Image pause_image;
 		[GtkChild] private Gtk.Image play_image;
-		[GtkChild] private Gtk.Scale volume_scale;
 		[GtkChild] private Gtk.Box chapter_list_placeholder_box;
-		[GtkChild] private Gtk.MenuButton controls_button;
-		[GtkChild] private Gtk.SpinButton playback_rate_spin_button;
 		[GtkChild] private Gtk.Box bottom_placeholder_box;
 		[GtkChild] private Gtk.Box prefs_placeholder_box;
 		[GtkChild] private Gtk.ModelButton open_menu_item;
 		[GtkChild] private Gtk.ModelButton prefs_menu_item;
 		[GtkChild] private Gtk.ModelButton shotcuts_menu_item;
 		[GtkChild] private Gtk.ModelButton quit_menu_item;
+		[GtkChild] private Gtk.Box control_button_placeholder_box;
 
 		private Player? player;
 		private GLib.List<Chapter?>? list;
 		private ChapterListBox? lb;
 		private ChapterIndicator indicator;
+		private ControlMenuButton control_button;
 		private PrefsPage prefs_page;
-		private Gtk.Builder builder;
 
 		private double duration;
 		private bool audiobook;
@@ -86,6 +84,10 @@ namespace Balss {
 			prefs_page = new PrefsPage ();
 			prefs_page.update_gtk_theme ();
 			prefs_placeholder_box.pack_start (this.prefs_page, true, true, 0);
+			control_button = new ControlMenuButton ();
+			control_button_placeholder_box.pack_start (this.control_button, true, true, 0);
+			control_button.volume_changed.connect(control_button_volume_changed_cb);
+			control_button.rate_changed.connect(control_button_rate_changed_cb);
 		}
 
 		private bool keypress_cb (Gdk.EventKey event) {
@@ -125,6 +127,13 @@ namespace Balss {
 					} else {
 						return false;
 					}
+					break;
+
+				case 75: // "F9"
+					if (event.state == 0)
+						control_button.clicked ();
+					else
+						return false;
 					break;
 
 				case 18: // "9"
@@ -244,9 +253,9 @@ namespace Balss {
 		button_play.sensitive = true;
 		seek_forward_button.sensitive = true;
 		seek_backward_button.sensitive = true;
-		controls_button.visible = true;
+		control_button_placeholder_box.visible = true;
 		player.rate_changed.disconnect (player_rate_changed_cb);
-		playback_rate_spin_button.value = App.preferences.playback_rate;
+		control_button.rate = App.preferences.playback_rate;
 		player.rate_changed.connect (player_rate_changed_cb);
 
 
@@ -359,13 +368,9 @@ namespace Balss {
 
 
 
-		[GtkCallback]
-		private void playback_rate_spin_button_value_changed_cb (){
+		private void control_button_rate_changed_cb (double val) {
 
 			if (this.player == null) return;
-
-			float val =  (float) playback_rate_spin_button.get_value ();
-			//this.button_rate_label.label = "%g×".printf (val);
 			player.set_rate ( (double) val);
 		}
 
@@ -409,10 +414,9 @@ namespace Balss {
 
 
 
-		[GtkCallback] private void volume_scale_value_changed_cb () {
+		private void control_button_volume_changed_cb (double val) {
 
-		double val = this.volume_scale.get_value ();
-		player.set_volume (val * 100);
+			player.set_volume (val * 100);
 		}
 
 
@@ -572,7 +576,7 @@ namespace Balss {
 				this.speed_was_setted = true;
 			}
 			if (!initial_volume_was_setted) {
-				set_volume_scale_value (this.player.get_volume () / 100);
+				this.control_button.volume = this.player.get_volume () / 100;
 				initial_volume_was_setted = true;
 			}
 			if (this.seek_needed) {
@@ -620,25 +624,17 @@ namespace Balss {
 
 		private void player_volume_changed_cb (double val) {
 
-			debug ("volume_changed");
-			double cur_val = this.volume_scale.get_value ();
-			double new_val = (val / 100);
-
-			if (GLib.Math.fabs (cur_val - new_val) > 0.001)
-				set_volume_scale_value (new_val);
+			debug ("volume changed");
+			this.control_button.volume = val / 100;
 		}
 
-		private void set_volume_scale_value (double val) {
 
-			this.volume_scale.value_changed.disconnect (volume_scale_value_changed_cb);
-			volume_scale.set_value (val);
-			volume_scale.value_changed.connect (volume_scale_value_changed_cb);
-		}
 
 		private void player_rate_changed_cb (double val) {
 
 			debug ("rate_changed");
-			//this.button_rate_label.label = "%g×".printf (val);
+			this.control_button.rate = val;
+			//label = "%g×".printf (val);
 		}
 
 

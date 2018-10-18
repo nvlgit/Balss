@@ -7,14 +7,15 @@ balss_sources = [
   'chapter-row.vala',
   'chapter-list-box.vala',
   'chapter-indicator.vala',
+  'control-button.vala',
   'mpv-wrapper-backend.vala',
   'prefs-page.vala',
 ]
 
 c_args = [
   '-DVERSION="' + meson.project_version() + '"',
-  '-DAPP_ID="com.gitlab.nvlgit.Balss"',
-  '-DGETTEXT_PACKAGE="com.gitlab.nvlgit.Balss"',
+  '-DAPP_ID="' + app_id + '"',
+  '-DGETTEXT_PACKAGE="' + app_id + '"',
   '-DLOCALEDIR="' + join_paths(prefix, localedir) + '"'
 ]
 

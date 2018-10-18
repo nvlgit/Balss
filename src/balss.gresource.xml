@@ -6,6 +6,7 @@
     <file>chapter-row.ui</file>
     <file>chapter-list-box.ui</file>
     <file>chapter-indicator.ui</file>
+    <file>control-button.ui</file>
     <file>shortcuts-window.ui</file>
     <file>style.css</file>
   </gresource>
