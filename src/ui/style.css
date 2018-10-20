@@ -11,7 +11,7 @@
 }
 
 .balss-seekbar trough highlight {
-  background-color: alpha ( @theme_selected_fg_color, 0.9 );
+  background-image: image(alpha (@theme_selected_fg_color, 0.9) );
   background-size: cover;
   background-clip: content-box;
   border-color: alpha ( @theme_selected_fg_color, 0.7 );
