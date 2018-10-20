@@ -26,6 +26,9 @@ namespace Balss {
 		[GtkChild] private Gtk.SpinButton rate_spinbutton;
 		[GtkChild] private Gtk.DrawingArea rate_area;
 		[GtkChild] private Gtk.Image volume_button_image;
+		[GtkChild] private Gtk.Grid tooltip_grid;
+		[GtkChild] private Gtk.Label tooltip_rate_label;
+		[GtkChild] private Gtk.Label tooltip_volume_label;
 
 		public signal void volume_changed (double val);
 		public signal void rate_changed (double val);
@@ -55,6 +58,12 @@ namespace Balss {
 			_rate = 0.5;
 			_volume = 0.5;
 			this.rate_area.draw.connect (draw_rate_cb);
+			//this.set_tooltip_window (tooltip_window);
+			this.has_tooltip = true;
+			this.query_tooltip.connect ((x, y, keyboard_tooltip, tooltip) => {
+				tooltip.set_custom (tooltip_grid);
+				return true;
+			});
 		}
 
 
@@ -114,11 +123,11 @@ namespace Balss {
 
 		private void set_tooltip () {
 
-			string v = "%d %\n".printf (
+			string v = "%d %%".printf (
 				   (int) GLib.Math.round (100 * this._volume) );
-			string r = "%g×".printf (this._rate);
-			this.tooltip_text = (_("Volume: ") + v  +
-			                     _("Rate: ") + r);
+			string r = "%g ×".printf (this._rate);
+			this.tooltip_volume_label.label = v;
+			this.tooltip_rate_label.label = r;
 		}
 
 
@@ -162,8 +171,9 @@ namespace Balss {
 
 			cr.arc (xc, yc, 7 * px, angle_start, angle_arrow - 0.65);
 			cr.stroke ();
+			int r = (int) GLib.Math.round (_rate * 100);
 			Gdk.cairo_set_source_rgba (cr,
-			                           (_rate == 1.0) ? color : dimmed_color);
+			                           (r == 100) ? color : dimmed_color);
 			cr.arc (xc, yc, 7 * px, angle_arrow + 0.65 , angle_end);
 			cr.stroke ();
 

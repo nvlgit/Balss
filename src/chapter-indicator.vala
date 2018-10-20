@@ -27,6 +27,9 @@ namespace Balss {
 		[GtkChild] private Gtk.Frame frame;
 		[GtkChild] private Gtk.Popover indicator_popover;
 		[GtkChild] private Gtk.Label label;
+		[GtkChild] private Gtk.Grid tooltip_grid;
+		[GtkChild] private Gtk.Label tooltip_persent_label;
+		[GtkChild] private Gtk.Label tooltip_time_label;
 		[GtkChild] private Gtk.Button button_previous;
 		[GtkChild] private Gtk.Button button_next;
 		private double _value;
@@ -40,6 +43,11 @@ namespace Balss {
 			this.event_box.button_press_event.connect ((event) => {
 				debug ("button_press_event.connect");
 				indicator_popover.popup ();
+				return true;
+			});
+			this.frame.has_tooltip = true;
+			this.frame.query_tooltip.connect ((x, y, keyboard_tooltip, tooltip) => {
+				tooltip.set_custom (tooltip_grid);
 				return true;
 			});
 		}
@@ -61,10 +69,10 @@ namespace Balss {
 			this.button_next.sensitive = (chapter == count) ? false : true;
 		}
 
-		public string tooltip {
+		public void set_tooltip (int persent, string pos, string dur) {
 
-//			get { return frame.tooltip_text; }
-			set { frame.tooltip_text = (_("Total time: ") + value); }
+			tooltip_persent_label.label = "%d %%".printf (persent);
+			tooltip_time_label.label = "%s / %s".printf (pos, dur);
 		}
 
 		public void set_fraction (double val) {

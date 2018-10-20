@@ -9,6 +9,69 @@
     <property name="step_increment">0.05</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkGrid" id="tooltip_grid">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="column_spacing">6</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Volume:</property>
+        <property name="xalign">1</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Rate:</property>
+        <property name="xalign">1</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+        </attributes>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="tooltip_volume_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="tooltip_rate_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkAdjustment" id="volume_adjustment">
     <property name="upper">1</property>
     <property name="step_increment">0.01</property>
@@ -23,6 +86,9 @@
         <property name="border_width">12</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
+        <child>
+          <placeholder/>
+        </child>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
@@ -78,6 +144,9 @@
                 <property name="adjustment">volume_adjustment</property>
                 <property name="draw_value">False</property>
                 <signal name="value-changed" handler="volume_scale_value_changed_cb" swapped="no"/>
+                <style>
+                  <class name="balss-volume-scale"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -90,17 +159,6 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkSeparator">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -157,7 +215,7 @@
                 <property name="can_focus">True</property>
                 <property name="halign">center</property>
                 <property name="max_length">4</property>
-                <property name="width_chars">7</property>
+                <property name="width_chars">8</property>
                 <property name="max_width_chars">5</property>
                 <property name="text">1.00</property>
                 <property name="xalign">1</property>
@@ -190,13 +248,26 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
-    <property name="relief">none</property>
+    <property name="valign">center</property>
+    <property name="relief">half</property>
     <property name="popover">controls_popover</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">9</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkImage" id="volume_button_image">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">multimedia-volume-control-symbolic</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkDrawingArea" id="rate_area">
             <property name="width_request">16</property>
@@ -209,19 +280,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkImage" id="volume_button_image">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="icon_name">multimedia-volume-control-symbolic</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>

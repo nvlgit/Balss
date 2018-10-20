@@ -48,3 +48,7 @@
   color: @theme_selected_fg_color;
 }
 
+.balss-volume-scale  {
+    padding-left: 0;
+    padding-right: 0;
+}

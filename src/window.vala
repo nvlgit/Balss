@@ -465,7 +465,7 @@ namespace Balss {
 
 			if (this.player == null) return;
 			var rate = this.player.get_rate () + 0.05;
-			if (rate > 2) return;
+			if (rate > 1.5) rate = 1.5;
 			this.player.set_rate (rate);
 		}
 
@@ -474,7 +474,7 @@ namespace Balss {
 
 			if (this.player == null) return;
 			var rate = this.player.get_rate () - 0.05;
-			if (rate < 0.5) return;
+			if (rate < 0.5) rate = 0.5;
 			this.player.set_rate (rate);
 		}
 
@@ -697,9 +697,9 @@ namespace Balss {
 				this.indicator.set_fraction (val);
 			}
 			int persent = calculate_percentage (pos, duration);
-			this.indicator.tooltip = "%d%%\n%s / %s".printf (persent,
-			                                  to_hhmmss (pos),
-			                                  to_hhmmss(this.duration) );
+			this.indicator.set_tooltip (persent,
+			                            to_hhmmss (pos),
+			                            to_hhmmss(this.duration) );
 		}
 
 		private int calculate_percentage (double p, double w) {
