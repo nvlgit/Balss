@@ -92,7 +92,7 @@ namespace Balss {
 
 		private bool keypress_cb (Gdk.EventKey event) {
 
-			if (event.type != Gdk.KEY_PRESS)
+			if (event.type != Gdk.EventType.KEY_PRESS)
 				return false;
 
 			switch (event.hardware_keycode) {
