@@ -16,6 +16,7 @@ meson builddir --prefix=/usr && cd builddir
 ninja
 su -c 'ninja install'
 ```
+For rpmbuild: <a href="https://gitlab.com/nvlgit/fedora-specs/-/raw/master/balss.spec">balss.spec</a> 
 
 ### Build Dependencies
 * gtk+-3.0 >= 3.22
