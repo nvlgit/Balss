@@ -25,3 +25,25 @@ su -c 'ninja install'
 ### Run Dependencies
 * libmpv >= 0.28
 
+
+## Flatpak Building and Installation
+
+Make temp dir
+```bash
+mkdir temp && cd temp
+```
+Build
+```bash
+wget https://gitlab.com/nvlgit/Balss/raw/master/com.gitlab.nvlgit.Balss.yml
+flatpak-builder build-dir com.gitlab.nvlgit.Balss.yml
+flatpak build-export my-repo build-dir
+flatpak build-bundle my-repo Balss.flatpak com.gitlab.nvlgit.Balss
+```
+Install
+```bash
+flatpak install Balss.flatpak
+```
+Remove temp dir
+```bash
+cd .. && rm -R temp
+```
