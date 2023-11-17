@@ -3,7 +3,6 @@ desktop_conf.set('app_id', app_id)
 
 
 desktop_file = i18n.merge_file(
-  'desktop',
   input: configure_file(
            input: '@0@.desktop.in'.format(app_id),
            output: '@0@.desktop.in'.format(app_id),
