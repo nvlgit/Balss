@@ -12,7 +12,7 @@ Balss is an easy to use player for audiobook files with chapters such as m4b or 
 
 ```bash
 git clone https://gitlab.com/nvlgit/Balss.git && cd Balss
-meson builddir --prefix=/usr && cd builddir
+meson setup builddir --prefix=/usr && cd builddir
 ninja
 su -c 'ninja install'
 ```
